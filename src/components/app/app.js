@@ -2,26 +2,28 @@ import React, { useState } from 'react';
 import {Col, Row, Container, Button} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
-import ErrorMessage from '../errorMessage/errorMessage';
+// import ErrorMessage from '../errorMessage/errorMessage';
+import CharacterPage from '../characterPage/characterPage';
 
 
 export default function App() {
     
     const [toggle, onToggle] = useState(true);
-    const [error, setError] = useState(false);
-    const [selectedChar, setSelectedChar] = useState(null);
+    // const [error, setError] = useState(false);
+    
     const toggleRandomCharacter = <Button style= {{marginBottom: '40px'}} onClick={() => onToggle(prevstate => !prevstate)} color="info">toggleRandomCharacter</Button>;
     const char = toggle ? <RandomChar/> : null;
 
-    const onCharSelected = (id) => {
-        setSelectedChar(id);
-    }
     
-    if (error) {
-        return <ErrorMessage/>
-    }
+
+    // componentDidCatch() {
+    //     console.log('error');
+    //     setError(true);
+    // }
+    
+    // if (error) {
+    //     return <ErrorMessage/>
+    // }
 
     return (
         <>
@@ -36,14 +38,23 @@ export default function App() {
                         {toggleRandomCharacter}
                     </Col>
                 </Row>
-                <Row>
+                <CharacterPage/>
+                {/* <Row>
                     <Col md='6'>
-                        <ItemList onCharSelected={onCharSelected}/>
+                        <ItemList onCharSelected={this.onCharSelected}/>
                     </Col>
                     <Col md='6'>
-                        <CharDetails charId={selectedChar}/>
+                        <CharDetails charId={this.state.selectedChar}/>
                     </Col>
                 </Row>
+                <Row>
+                    <Col md='6'>
+                        <ItemList onCharSelected={this.onCharSelected}/>
+                    </Col>
+                    <Col md='6'>
+                        <CharDetails charId={this.state.selectedChar}/>
+                    </Col>
+                </Row> */}
             </Container>
         </>
     );

@@ -1,45 +1,52 @@
 import React, {Component} from 'react';
 import './itemList.css';
-import gotService from '../../services/gotService';
+// import gotService from '../../services/gotService';
 import Spinner from '../spinner';
+import ErrorMessage from '../errorMessage';
 
 export default class ItemList extends Component {
 
-    gotService = new gotService();
+    // gotService = new gotService();
 
     state = {
-        charList: null
+        itemList: null
     }
 
     componentDidMount() {
-        this.gotService.getAllCharacters()
-        .then( (charList) => {
+        const  { getData } =this.props;
+        getData()
+        .then((itemList) => {
             this.setState({
-                charList
+                itemList
             })
         })
     }
 
     renderItems(arr) {
-        return arr.map((item, i) => {
+        return arr.map((item) => {
+            const {id, name} = item;
             return (
-                <li 
-                    key={i}
+                <li
+                    key={id}
                     className="list-group-item"
-                    onClick={ () => this.props.onCharSelected(i) }
+                    onClick={() => this.props.onCharSelected(id)}
                     >
-                    {item.name}
+                    {name}
                 </li>
             )
         })
     }
-    // key={i} плохой метод, тк ключ должен быть уникальным, но здесь нам пофиг
+
 
     render() {
 
-        const { charList } = this.state;
+        const { itemList, error } = this.state;
 
-        if (!charList) {
+        if (error) {
+            return <ErrorMessage/>
+        }
+
+        if (!itemList) {
             return (
                 <div className="char-details rounded">
                     <Spinner/>
@@ -47,7 +54,7 @@ export default class ItemList extends Component {
             )
         }
 
-        const items = this.renderItems(charList);
+        const items = this.renderItems(itemList);
         // if charList does not exist we will not get an Error (because the varaible declaration after the condition)
 
         return (
