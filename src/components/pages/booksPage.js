@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 //import {Col, Row, Container, Button} from 'reactstrap';
 import ItemList from '../itemList';
-import ItemDetails, {Field} from '../itemDetails';
+//import ItemDetails, {Field} from '../itemDetails';
 import gotService from '../../services/gotService';
 import ErrorMessage from '../errorMessage';
-import RowBlock from '../rowBlock';
+//import RowBlock from '../rowBlock';
+import { withRouter } from 'react-router';
 
-export default class BooksPage extends Component {
+class BooksPage extends Component {
 
     gotService = new gotService();
     
     state = {
-        selectedBook: 10,
         error: false
     }
 
@@ -21,39 +21,23 @@ export default class BooksPage extends Component {
         })
     }
 
-    onItemSelected = (id) => {
-        this.setState({
-            selectedBook: id
-        })
-    }
-
     render() {
 
         if (this.state.error) {
             return <ErrorMessage/>
         }
 
-        const itemList = (
+        return (
             <ItemList 
-                onItemSelected={ this.onItemSelected }
+                onItemSelected={ (itemId) => {
+                this.props.history.push(itemId)
+                } }
                 getData={ this.gotService.getAllBooks }
                 // renderItem={ (item) => `${item.name} (${item.gender})` }
-                renderItem={ ({ name, gender }) => `${name} (${gender})` }
+                renderItem={ ({ name }) => name }
             />
-        )
-
-        const itemDetails = (
-            <ItemDetails 
-            itemId={ this.state.selectedBook }
-            getData={this.gotService.getBook}>
-                <Field field='numberOfPages' label='Number of pages' />
-                <Field field='publisher' label='Publisher' />
-                <Field field='released' label='Released' />
-            </ItemDetails>
-        )
-
-        return (
-            <RowBlock left={itemList} right={itemDetails}/>
         )   
     }
 }
+
+export default withRouter(BooksPage);

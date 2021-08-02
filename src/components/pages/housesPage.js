@@ -38,7 +38,7 @@ export default class HousesPage extends Component {
                 onItemSelected={ this.onItemSelected }
                 getData={ this.gotService.getAllHouses }
                 // renderItem={ (item) => `${item.name} (${item.gender})` }
-                renderItem={ ({ name, gender }) => `${name} (${gender})` }
+                renderItem={ ({ name }) => name }
             />
         )
 
@@ -49,7 +49,7 @@ export default class HousesPage extends Component {
                 <Field field='region' label='Region' />
                 <Field field='words' label='Words' />
                 <Field field='titles' label='Titles' />
-                <Field field='overlord' label='Overlord' />
+                {/* <Field field='overlord' label='Overlord' /> */}
                 <Field field='ancestralWeapons' label='Ancestral weapons' />
             </ItemDetails>
         )

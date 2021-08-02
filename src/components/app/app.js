@@ -32,7 +32,7 @@ export default class App extends Component {
             return <ErrorMessage/>
         }
 
-        const char = this.state.showRandomChar ? <RandomChar/> : null;
+        const char = this.state.showRandomChar ? <RandomChar interval={6000}/> : null;
 
         return (
             <Router> 
@@ -50,12 +50,12 @@ export default class App extends Component {
                             </Col>
                         </Row>
 
-                        <Route path='/' exact component={() => <h1>Welcome to GOT DB</h1>}/>
+                        <Route path='/' exact component={() => <h1 style={{color: "white"}}>Hello to all game of thrones lovers</h1>}/>
                         <Route path='/characters' component={CharacterPage}/>
                         <Route path='/books' exact component={BooksPage}/>
-                        {/* <Route path='/books/:id' render={({match}) => {
+                        <Route path='/books/:id' render={({match}) => {
                             const {id} = match.params;
-                            return <BooksItem bookId={id}/>}}/> */}
+                            return <BooksItem bookId={id}/>}}/>
                         <Route path='/houses' component={HousesPage}/>
 
                     </Container>
