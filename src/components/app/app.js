@@ -18,7 +18,6 @@ export default class App extends Component {
         showRandomChar: true,
         error: false
     }
-
     toggleRandomChar = () => {
         this.setState((state) => {
             return {
@@ -33,6 +32,8 @@ export default class App extends Component {
         }
 
         const char = this.state.showRandomChar ? <RandomChar interval={6000}/> : null;
+
+        console.log('hi');
 
         return (
             <Router> 

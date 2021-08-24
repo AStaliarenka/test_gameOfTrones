@@ -3,32 +3,22 @@ import './itemList.css';
 // import gotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
+import gotService from '../../services/gotService';
 
-class ItemList extends Component {
+function ItemList(props) {
 
     // gotService = new gotService();
 
-    // указываем что getData должен быть массивом объектов, а onItemSelected - функцией
-    static defaultProps = {
-        onItemSelected: () => {}
-    }
-    
-    static propTypes = {
-        onItemSelected: PropTypes.func
-    }
-
-    
-
-    renderItems(arr) {
+    function renderItems(arr) {
         return arr.map((item) => {
             const {id} = item;
-            const label = this.props.renderItem(item);
+            const label = props.renderItem(item);
             return (
                 <li
                     key={id}
                     className="list-group-item"
-                    onClick={() => this.props.onItemSelected(id)}
+                    onClick={() => props.onItemSelected(id)}
                     >
                     {label}
                 </li>
@@ -36,10 +26,8 @@ class ItemList extends Component {
         })
     }
 
-    render() {
-
-        const {data} = this.props;
-        const items = this.renderItems(data);
+        const {data} = props;
+        const items = renderItems(data);
         // if charList does not exist we will not get an Error (because the varaible declaration after the condition)
 
         return (
@@ -47,10 +35,16 @@ class ItemList extends Component {
                 {items}
             </ul>
         );
-    }
+    
 }
 
-const withData = (View) => {
+// указываем что onItemSelected должен быть функцией
+ItemList.defaultProps = {
+    onItemSelected: () => {}
+}
+
+
+const withData = (View, getData) => {
     return class extends Component {
 
         state = {
@@ -58,7 +52,7 @@ const withData = (View) => {
         }
     
         componentDidMount() {
-            const { getData } = this.props;
+            // const { getData } = this.props;
             getData()
             .then((data) => {
                 this.setState({
@@ -85,5 +79,5 @@ const withData = (View) => {
         }
     }
 }
-
-export default withData(ItemList);
+const {getAllCharacters} = new gotService();
+export default withData(ItemList, getAllCharacters);
